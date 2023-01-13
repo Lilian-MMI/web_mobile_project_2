@@ -11,7 +11,7 @@ import cors from 'cors';
 dotenv.config();
 
 // Constants
-const PORT = 9000;
+const PORT = process.env.PORT || 9000;
 const corsOrigins = ['http://localhost:3000', 'http://127.0.0.1:3000'];
 
 // App
