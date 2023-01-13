@@ -73,6 +73,10 @@ Enfin, il faut lancer le serveur et le client. Pour cela, il faut se placer dans
 Si vous avez pnpm d'installé, vous pouvez utiliser la commande `pnpm run -r dev` à la place de `npm run dev` directement dans le dossier racine du projet, cela lancera le serveur et le client en même temps.
 **Cela explique la présence du fichier package.json à la racine du projet.**
 
+Le client est accessible à l'adresse `http://localhost:3000` et le serveur à l'adresse `http://localhost:9000`.
+
+NOW, JUST ENJOY YOUR CHAT APP !
+
 ## PWA
 
 Pour vérifier que la PWA est bien installée, il suffit d'ouvrir la console et d'y voir les différents logs issue du service worker.
