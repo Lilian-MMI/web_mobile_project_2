@@ -18,16 +18,25 @@
         ></span
       ></v-btn>
     </div>
+
+    <div v-if="channels.length === 0">
+      <h2>Aucun salon</h2>
+      <small>Utilisez le bouton central en ajouter un.</small>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { getChannels } from '@/api/channel';
-
 import { useSocketIO } from '@/composables/use-socket-io';
-const { socket } = useSocketIO();
 
-const channels = ref([]) as any;
+export type Channel = {
+  id: string;
+  name: string;
+};
+
+const { socket } = useSocketIO();
+const channels = ref<Channel[]>([]);
 
 socket.on('newChannel', async () => {
   channels.value = await getChannels();

@@ -1,10 +1,10 @@
 import { editUser, getCurrentUser, loginUser, UserLoginDto } from '@/api/user';
 
-export interface User {
+export type User = {
   id: string;
   username: string;
   email: string;
-}
+};
 
 export const useUserStore = defineStore({
   id: 'userStore',

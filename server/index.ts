@@ -38,11 +38,14 @@ sequelize
 // Socket.io
 io.on('connection', (socket) => {
   let currentChannelId: string;
+  let currentUser: { username: string; id: string; email: string };
 
   socket.on('joinChannel', (data) => {
     currentChannelId = data.channelId;
     data.socketId = socket.id;
     socket.join(currentChannelId);
+
+    currentUser = data.user;
 
     io.to(currentChannelId).emit('userJoined', data);
   });
@@ -68,6 +71,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     io.to(currentChannelId).emit('userLeft', {
       socketId: socket.id,
+      user: currentUser,
     });
   });
 });

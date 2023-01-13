@@ -37,6 +37,12 @@
                 </div>
                 <div
                   class="chat-message-content"
+                  v-if="chatMessage.type === 'info'"
+                >
+                  {{ chatMessage.content }}
+                </div>
+                <div
+                  class="chat-message-content"
                   v-if="chatMessage.type === 'gif'"
                   v-html="chatMessage.content"
                 ></div>
@@ -74,11 +80,17 @@ import { useUserStore } from '@/stores';
 //@ts-expect-error (no types)
 import DiscordPicker from 'vue3-discordpicker';
 
-interface User {
+export type Message = {
+  id: string;
+  content: string;
+  type: string;
+};
+
+type User = {
   id: string;
   username: string;
   email: string;
-}
+};
 
 const { currentUser } = useUserStore();
 
@@ -102,18 +114,10 @@ const setGif = (gif: string) => {
 const message = ref('');
 const chatMessages = ref<(Message & { User: User })[]>([]);
 
-type Message = {
-  id: string;
-  content: string;
-  type: string;
-};
-
 onMounted(async () => {
   window.addEventListener('beforeunload', handlerExitWindow);
 
-  const messages = (await chatApi.getMessagesByChannel(
-    channelId
-  )) as (Message & { User: User })[];
+  const messages = await chatApi.getMessagesByChannel(channelId);
   chatMessages.value = messages;
 });
 
@@ -168,7 +172,7 @@ socket.on('userLeft', (data) => {
   });
 });
 
-onBeforeUnmount(() => handlerExitWindow);
+onUnmounted(() => handlerExitWindow());
 
 function handlerExitWindow() {
   socket.emit('userQuit', {
